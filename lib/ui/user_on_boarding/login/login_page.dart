@@ -1,8 +1,12 @@
-
-
 import 'package:ecomm_474/domain/constants/app_routes.dart';
 import 'package:ecomm_474/domain/utils/ui_helper.dart';
+import 'package:ecomm_474/ui/user_on_boarding/bloc/user_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../custom_widgets/app_rounded_btn.dart';
+import '../bloc/user_bloc.dart';
+import '../bloc/user_state.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -78,11 +82,11 @@ class LoginPage extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 11),
-                /*BlocConsumer<UserBloc, UserState>(
-                  buildWhen: (ps, cs){
+                BlocConsumer<UserBloc, UserState>(
+                  buildWhen: (ps, cs) {
                     return isLogin;
                   },
-                  listenWhen: (ps, cs){
+                  listenWhen: (ps, cs) {
                     return isLogin;
                   },
                   listener: (context, state) {
@@ -102,7 +106,7 @@ class LoginPage extends StatelessWidget {
 
                     if (state is UserSuccessState) {
                       isLoading = false;
-                      Navigator.pushNamed(context, AppRoutes.DASHBOARD_ROUTE);
+                      Navigator.pushReplacementNamed(context, AppRoutes.DASHBOARD_ROUTE);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text("User authenticated successfully!!"),
@@ -120,21 +124,19 @@ class LoginPage extends StatelessWidget {
                           isLogin = true;
                           print(isLogin);
                           context.read<UserBloc>().add(
-                            UserLoginEvent(
-                              email: emailController.text,
-                              pass: passController.text,
-                            ),
+                              LoginUserEvent(email: emailController.text,
+                                  password: passController.text)
                           );
                         }
                       },
                     );
                   },
-                ),*/
+                ),
                 SizedBox(height: 5),
                 Center(
                   child: InkWell(
                     onTap: () {
-                      isLogin  = false;
+                      isLogin = false;
                       print(isLogin);
                       Navigator.pushNamed(context, AppRoutes.SIGNUP_ROUTE);
                     },
