@@ -1,5 +1,6 @@
 import 'package:ecomm_474/data/helper/api_helper.dart';
 import 'package:ecomm_474/domain/constants/app_routes.dart';
+import 'package:ecomm_474/ui/dashboard/bloc/product_bloc.dart';
 import 'package:ecomm_474/ui/user_on_boarding/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ void main() {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => UserBloc(apiHelper: ApiHelper())),
+        BlocProvider(create: (context) => ProductBloc(apiHelper: ApiHelper())),
       ],
       child: const MyApp(),
     ),

@@ -20,7 +20,7 @@ class UserBloc extends Bloc<UserEvent, UserState>{
           "mobile_number": event.mobNo,
           "email": event.email,
           "password": event.password
-        });
+        }, isAuth: true);
 
         if(data["status"]){
           emit(UserSuccessState());
@@ -43,7 +43,7 @@ class UserBloc extends Bloc<UserEvent, UserState>{
         dynamic data = await apiHelper.postAPI(url: AppUrls.loginUrl, mBodyParams: {
           "email": event.email,
           "password": event.password
-        });
+        }, isAuth: true);
 
         if(data["status"]){
           emit(UserSuccessState());

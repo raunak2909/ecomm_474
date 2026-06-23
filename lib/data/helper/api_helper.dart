@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ecomm_474/domain/constants/app_constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_exceptions.dart';
 
@@ -10,9 +12,29 @@ class ApiHelper {
 
   }
 
-  Future<dynamic> postAPI({required String url, Map<String, dynamic>? mBodyParams}) async {
+  Future<dynamic> postAPI({
+    required String url,
+    Map<String, dynamic>? mBodyParams,
+    bool isAuth = false,
+    Map<String, String>? mHeaders,
+  }) async {
     try {
-      var response = await http.post(Uri.parse(url), body: jsonEncode(mBodyParams));
+
+      if(!isAuth){
+
+        mHeaders ??= {};
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String token = prefs.getString(AppConstants.PREF_USER_ID) ?? "";
+
+        mHeaders["Authorization"] = "Bearer $token";
+
+      }
+
+
+      var response = await http.post(Uri.parse(url),
+          body: jsonEncode(mBodyParams),
+          headers: mHeaders
+      );
       return returnResponse(response);
     } on SocketException catch (e) {
       /// internet not available

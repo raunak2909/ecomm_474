@@ -1,8 +1,16 @@
+import 'package:ecomm_474/ui/dashboard/bloc/product_bloc.dart';
+import 'package:ecomm_474/ui/dashboard/bloc/product_event.dart';
 import 'package:ecomm_474/ui/dashboard/nav_pages/nav_cart_page.dart';
 import 'package:ecomm_474/ui/dashboard/nav_pages/nav_home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
   List<Widget> mNavPages = [
     NavHomePage(),
     NavCartPage(),
@@ -10,9 +18,14 @@ class DashboardPage extends StatelessWidget {
     NavCartPage(),
     NavHomePage(),
   ];
+
   int selectedNavIndex = 2;
 
-
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProductBloc>().add(FetchAllProductEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
